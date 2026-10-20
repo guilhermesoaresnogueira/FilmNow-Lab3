@@ -40,9 +40,7 @@ public class Filme {
         return Objects.hash(getNome(), getAno());
     }
 
-    public void setLocal(String local) {
-        this.local = local;
-    }
+
 
     ;
 
