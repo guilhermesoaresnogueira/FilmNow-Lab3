@@ -10,7 +10,7 @@ public class FilmNow {
 
     private static final int TAMANHO = 100;
 
-    private String[] filmes; //uma representacao simploria da lista de filmes
+    private Filme[] filmes; //uma representacao simploria da lista de filmes
 
     /**
      * Cria o FilmNow.
@@ -43,8 +43,26 @@ public class FilmNow {
      * @param ano Ano de lançamento do filme.
      * @param local Local onde o filme pode ser assitido.
      */
-    public void cadastraFilme(int posicao, String nome, String ano, String local) {
-        this.filmes[posicao] = nome;
+    public String cadastraFilme(int posicao, String nome, String ano, String local) {
+        verificaPosicao()
+        verificaString() // p ano e local
+        Filme outroFilme = new Filme(nome, ano, local);
+        if(verificaFilme(outroFilme)){
+            this.filmes[posicao] = outroFilme;
+            return "FILME ADICIONADO";
+        }
+        return "FILME JA ADICIONADO";
+    }
+
+    private boolean verificaFilme(Filme outro){
+        for (int i = 0; i < this.filmes.length; i++){
+            Filme f = this.filmes[i];
+            if (f.equals(outro)) {
+                return false;
+            }
+        }
+        return true;
+
     }
 
 }
