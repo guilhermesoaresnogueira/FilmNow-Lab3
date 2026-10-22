@@ -23,4 +23,4 @@ class FilmNowTest {
         assertEquals("2023", filmNow.getFilme(1).getAno());
         assertEquals("Cinema", filmNow.getFilme(1).getLocal());
     }
-}a
+}
