@@ -32,8 +32,10 @@ public class FilmNow {
      * @param posicao Posição do filme no sistema.
      * @return Dados do filme. Null se não há filme na posição.
      */
+
     public Filme getFilme(int posicao) {
-        return filmes[posicao];
+        int ind = posicao - 1;
+        return filmes[ind];
     }
 
     /**
@@ -43,7 +45,8 @@ public class FilmNow {
      * @param ano Ano de lançamento do filme.
      * @param local Local onde o filme pode ser assitido.
      */
-    public String cadastraFilme(int posicao, String nome, String ano, String local) {
+    public String cadastraFilme(int posicao, String nome, String ano, String local){
+        int ind = posicao - 1;
        if (!posicaoEhValida(posicao)) {
            return "POSIÇÃO INVÁLIDA";
        }
@@ -52,7 +55,7 @@ public class FilmNow {
        }
         Filme outroFilme = new Filme(nome, ano, local);
         if(verificaFilme(outroFilme)){
-            this.filmes[posicao] = outroFilme;
+            this.filmes[ind] = outroFilme;
             return "FILME ADICIONADO";
         }
         return "FILME JA ADICIONADO";
@@ -66,15 +69,21 @@ public class FilmNow {
     }
 
     private boolean verificaString(String nome, String local){
-
+        // isBlank() devolve true quando o texto é vazio ou só tem espaços
+        if (nome.isBlank() || local.isBlank()){
+            return false;
+        }
+        return true;
     }
 
 
     private boolean verificaFilme(Filme outro){
         for (int i = 0; i < this.filmes.length; i++){
             Filme f = this.filmes[i];
-            if (f.equals(outro)) {
-                return false;
+            if (f != null) {
+                if (f.equals(outro)) {
+                    return false;
+                }
             }
         }
         return true;
