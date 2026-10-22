@@ -80,5 +80,5 @@ public class FilmNow {
         return true;
 
     }
-
+     private boolean
 }

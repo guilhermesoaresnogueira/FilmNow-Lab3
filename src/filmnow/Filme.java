@@ -40,6 +40,6 @@ public class Filme {
     public int hashCode() {
         return Objects.hash(getNome(), getAno());
     }
-
+pria
 
 }
