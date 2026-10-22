@@ -30,7 +30,8 @@ public class Filme {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass())
+            return false;
         Filme filme = (Filme) o;
         return Objects.equals(getNome(), filme.getNome()) && Objects.equals(getAno(), filme.getAno());
     }
@@ -40,8 +41,5 @@ public class Filme {
         return Objects.hash(getNome(), getAno());
     }
 
-
-
-    ;
 
 }

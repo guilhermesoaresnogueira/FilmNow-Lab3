@@ -16,14 +16,14 @@ public class FilmNow {
      * Cria o FilmNow.
      */
     public FilmNow() {
-        this.filmes = new String[TAMANHO];
+        this.filmes = new Filme[TAMANHO];
     }
 
     /**
      * Acessa a lista de filmes mantida.
      * @return O array de filmes.
      */
-    public String[] getFilmes() {
+    public Filme[] getFilmes() {
         return this.filmes.clone();
     }
 
@@ -32,7 +32,7 @@ public class FilmNow {
      * @param posicao Posição do filme no sistema.
      * @return Dados do filme. Null se não há filme na posição.
      */
-    public String getFilme(int posicao) {
+    public Filme getFilme(int posicao) {
         return filmes[posicao];
     }
 
@@ -44,8 +44,12 @@ public class FilmNow {
      * @param local Local onde o filme pode ser assitido.
      */
     public String cadastraFilme(int posicao, String nome, String ano, String local) {
-        verificaPosicao()
-        verificaString() // p ano e local
+       if (!posicaoEhValida(posicao)) {
+           return "POSIÇÃO INVÁLIDA";
+       }
+       if (!verificaString(nome, local)) {
+            return "FILME INVALIDO";
+       }
         Filme outroFilme = new Filme(nome, ano, local);
         if(verificaFilme(outroFilme)){
             this.filmes[posicao] = outroFilme;
@@ -53,6 +57,18 @@ public class FilmNow {
         }
         return "FILME JA ADICIONADO";
     }
+
+    private boolean posicaoEhValida(int posicao){
+        if (posicao >= 1 && posicao <= TAMANHO){
+            return true;
+            }
+        return false;
+    }
+
+    private boolean verificaString(String nome, String local){
+
+    }
+
 
     private boolean verificaFilme(Filme outro){
         for (int i = 0; i < this.filmes.length; i++){
