@@ -6,7 +6,7 @@ public class Filme {
     private String nome;
     private String ano;
     private String local;
-    // construtores
+    // construtor
     public Filme(String nome, String ano, String local) {
         this.nome = nome;
         this.ano = ano;
@@ -27,7 +27,7 @@ public class Filme {
     public String toString(){
         return this.nome + ", " + this.ano;
     }
-
+    //equals() verificar se o filme é repetido ou nao
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass())
@@ -43,4 +43,3 @@ public class Filme {
 
 
 }
-a

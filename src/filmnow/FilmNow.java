@@ -24,7 +24,12 @@ public class FilmNow {
      * @return O array de filmes.
      */
     public Filme[] getFilmes() {
-        return this.filmes.clone();
+        if (!posicaoEhValida(posicao)) {
+            return null;
+        }
+        int ind = posicao - 1;
+
+        return filmes[ind];
     }
 
     /**
@@ -87,7 +92,6 @@ public class FilmNow {
             }
         }
         return true;
-a
     }
 
 }

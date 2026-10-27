@@ -88,10 +88,10 @@ public class MainFilmNow {
      */
     private static void mostrarFilmes(FilmNow fn) {
 
-        String[] filmes = fn.getFilmes();
+        Filme[] filmes = fn.getFilmes();
         for (int i = 0; i < filmes.length; i++) {
             if (filmes[i] != null) {
-                System.out.println(formataFilme(i, filmes[i]));
+                System.out.println(formataFilme(i+1, filmes[i]));
             }
         }
     }
@@ -103,10 +103,15 @@ public class MainFilmNow {
      * @param scanner Scanner para capturar qual contato.
      */
     private static void detalharFilme(FilmNow fn, Scanner scanner) {
-        System.out.print("\nQual filme> ");
+        System.out.print("\nPosição> ");
         int posicao = scanner.nextInt();
-        String filme = fn.getFilme(posicao);
-        System.out.println("Dados do filme:\n" + filme);
+
+        Filme filme = fn.getFilme(posicao);
+        if (filme == null){
+            System.out.println("POSIÇÃO INVÁLIDA!");
+            return;
+        }
+        System.out.println("\n" + filme + "\n" + filme.getLocal());
     }
 
     /**
@@ -116,8 +121,8 @@ public class MainFilmNow {
      * @param filme O filme a ser impresso.
      * @return A String formatada.
      */
-    private static String formataFilme(int posicao, String filme) {
-        return posicao + " - " + filme;
+    private static String formataFilme(int posicao,  Filme filme) {
+        return posicao + " - " + filme.getNome();
     }
 
     /**
