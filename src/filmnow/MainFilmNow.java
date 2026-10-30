@@ -1,5 +1,11 @@
-package filmnow;
+/**
+ * Representação de um estudante, especificamente de computação, matriculado da * UFCG. Todo aluno precisa ter uma matrícula e é identificado unicamente
+ * por esta matrícula: 20260014800
+ *
+ * @author Guilherme Soares Nogueira
+ */
 
+package filmnow;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
@@ -42,17 +48,20 @@ public class MainFilmNow {
      * @param scanner Para captura da opção do usuário/a.
      * @return O comando escolhido.
      */
-
     private static String menu(Scanner scanner) {
-        System.out.println(
-                "\n---\nMENU\n" +
-                        "(A)Adicionar filme\n" +
+        System.out.print(
+                "\n(A)Adicionar filme\n" +
                         "(M)Mostrar todos\n" +
                         "(D)Detalhar filme\n" +
-                        "(S)air\n" +
+                        "(E)Exibir HotList\n" +
+                        "(H)Atribuir Hot\n" +
+                        "(R)Remover Hot\n" +
+                        "(L)Adicionar local\n" +
+                        "(V)Remover local\n" +
+                        "(S)Sair\n" +
                         "\n" +
                         "Opção> ");
-        return scanner.next().toUpperCase();
+        return scanner.nextLine().trim().toUpperCase();
     }
 
     /**
@@ -73,11 +82,26 @@ public class MainFilmNow {
             case "D":
                 detalharFilme(fn, scanner);
                 break;
+            case "E":
+                exibirHot(fn);
+                break;
+            case "H":
+                atribuirHot(fn, scanner);
+                break;
+            case "R":
+                removerHot(fn, scanner);
+                break;
+            case "L":
+                adicionarLocal(fn, scanner);
+                break;
+            case "V":
+                removerLocal(fn, scanner);
+                break;
             case "S":
                 sai();
                 break;
             default:
-                System.out.println("Opção inválida!");
+                System.out.println("OPÇÃO INVÁLIDA!");
         }
     }
 
@@ -87,13 +111,7 @@ public class MainFilmNow {
      * @param fn O sistema FilmNow a ser manipulado.
      */
     private static void mostrarFilmes(FilmNow fn) {
-
-        Filme[] filmes = fn.getFilmes();
-        for (int i = 0; i < filmes.length; i++) {
-            if (filmes[i] != null) {
-                System.out.println(formataFilme(i+1, filmes[i]));
-            }
-        }
+        System.out.println("\n" + fn.mostrarFilmes());
     }
 
     /**
@@ -103,26 +121,14 @@ public class MainFilmNow {
      * @param scanner Scanner para capturar qual contato.
      */
     private static void detalharFilme(FilmNow fn, Scanner scanner) {
-        System.out.print("\nPosição> ");
-        int posicao = scanner.nextInt();
+        System.out.print("Filme> ");
+        int posicao = lerNumero(scanner);
 
-        Filme filme = fn.getFilme(posicao);
-        if (filme == null){
-            System.out.println("POSIÇÃO INVÁLIDA!");
-            return;
+        String detalhes = fn.detalharFilme(posicao);
+        if (detalhes.isEmpty()) {
+            detalhes = "POSIÇÃO INVÁLIDA!";
         }
-        System.out.println("\n" + filme + "\n" + filme.getLocal());
-    }
-
-    /**
-     * Formata um filme para impressão.
-     *
-     * @param posicao A posição do filme (que é exibida)/
-     * @param filme O filme a ser impresso.
-     * @return A String formatada.
-     */
-    private static String formataFilme(int posicao,  Filme filme) {
-        return posicao + " - " + filme.getNome();
+        System.out.println("\n" + detalhes);
     }
 
     /**
@@ -132,15 +138,96 @@ public class MainFilmNow {
      * @param scanner Scanner para pedir informações do contato.
      */
     private static void adicionaFilme(FilmNow fn, Scanner scanner) {
-        System.out.print("\nPosição no sistema> ");
-        int posicao = scanner.nextInt();
-        System.out.print("\nNome> ");
-        String nome = scanner.next();
-        System.out.print("\nAno> ");
-        String ano = scanner.next();
-        System.out.print("\nLocal> ");
-        String local = scanner.next();
-        fn.cadastraFilme(posicao, nome, ano, local);
+        System.out.print("\nPosição> ");
+        int posicao = lerNumero(scanner);
+        System.out.print("Nome> ");
+        String nome = scanner.nextLine();
+        System.out.print("Ano> ");
+        String ano = scanner.nextLine();
+        System.out.print("Local> ");
+        String local = scanner.nextLine();
+        System.out.println(fn.cadastraFilme(posicao, nome, ano, local));
+    }
+
+    /**
+     * Imprime a HotList.
+     *
+     * @param fn O sistema FilmNow a ser manipulado.
+     */
+    private static void exibirHot(FilmNow fn) {
+        System.out.println("\n" + fn.exibirHot());
+    }
+
+    /**
+     * Coloca um filme na HotList.
+     *
+     * @param fn O sistema FilmNow a ser manipulado.
+     * @param scanner Scanner para pedir o filme e a posição na HotList.
+     */
+    private static void atribuirHot(FilmNow fn, Scanner scanner) {
+        System.out.print("Filme> ");
+        int posicaoFilme = lerNumero(scanner);
+        System.out.print("Posicao> ");
+        int posicaoHot = lerNumero(scanner);
+        System.out.println(fn.atribuirHot(posicaoFilme, posicaoHot));
+    }
+
+    /**
+     * Retira um filme da HotList.
+     *
+     * @param fn O sistema FilmNow a ser manipulado.
+     * @param scanner Scanner para pedir a posição na HotList.
+     */
+    private static void removerHot(FilmNow fn, Scanner scanner) {
+        System.out.print("Posicao> ");
+        int posicaoHot = lerNumero(scanner);
+        String resposta = fn.removerHot(posicaoHot);
+        if (!resposta.isEmpty()) {
+            System.out.println(resposta);
+        }
+    }
+
+    /**
+     * Adiciona um local a um filme.
+     *
+     * @param fn O sistema FilmNow a ser manipulado.
+     * @param scanner Scanner para pedir o filme e o local.
+     */
+    private static void adicionarLocal(FilmNow fn, Scanner scanner) {
+        System.out.print("Filme> ");
+        int posicaoFilme = lerNumero(scanner);
+        System.out.print("Local> ");
+        String local = scanner.nextLine();
+        System.out.println(fn.adicionarLocal(posicaoFilme, local));
+    }
+
+    /**
+     * Remove um local de um filme.
+     *
+     * @param fn O sistema FilmNow a ser manipulado.
+     * @param scanner Scanner para pedir o filme e o local.
+     */
+    private static void removerLocal(FilmNow fn, Scanner scanner) {
+        System.out.print("Filme> ");
+        int posicaoFilme = lerNumero(scanner);
+        System.out.print("Local> ");
+        String local = scanner.nextLine();
+        System.out.println(fn.removerLocal(posicaoFilme, local));
+    }
+
+    /**
+     * Lê um número digitado. Se o texto não for um número, devolve 0,
+     * que é uma posição inválida em qualquer lista do sistema.
+     *
+     * @param scanner Scanner para ler a linha digitada.
+     * @return O número digitado, ou 0 se não era um número.
+     */
+    private static int lerNumero(Scanner scanner) {
+        try {
+            return Integer.parseInt(scanner.nextLine().trim());
+        } catch (NumberFormatException e) {
+            return 0;
+        }
     }
 
     /**
@@ -161,7 +248,7 @@ public class MainFilmNow {
     private static void carregaFilmes(String arquivoFilmes, FilmNow fn) throws FileNotFoundException, IOException {
         LeitorFilmNow leitor = new LeitorFilmNow();
 
-        int carregados =  leitor.carregaContatos(arquivoFilmes, fn);
+        int carregados = leitor.carregaContatos(arquivoFilmes, fn);
         System.out.println("Carregamos " + carregados + " registros.");
     }
 }

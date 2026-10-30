@@ -1,3 +1,10 @@
+/**
+ * Representação de um estudante, especificamente de computação, matriculado da * UFCG. Todo aluno precisa ter uma matrícula e é identificado unicamente
+ * por esta matrícula: 20260014800
+ *
+ * @author Guilherme Soares Nogueira
+ */
+
 
 package filmnow;
 
